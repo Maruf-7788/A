@@ -5,7 +5,7 @@ const baseApiUrl = async () => {
 
 module.exports.config = {
     name: "bby",
-    aliases: ["baby", "bbe", "babe"],
+    aliases: ["baby", "bbe", "bot", "maruf", "babe"],
     version: "6.9.0",
     author: "dipto",
     countDown: 0,
@@ -155,49 +155,25 @@ module.exports.onReply = async ({
 module.exports.onChat = async ({
     api,
     event,
-    message,
-    usersData
+    message
 }) => {
     try {
-        const body = event.body ? event.body?.toLowerCase() : "";
-        const uid = event.senderID;
-        const name = (await usersData.get(uid)).name || "প্রিয়";
-
-        if (body.startsWith("baby") || body.startsWith("bby") || body.startsWith("bot") || body.startsWith("jan") || body.startsWith("babu") || body.startsWith("janu")) {
-            const arr = body.replace(/^\S+\s*/, "");
-
-            const rawReplies = [
-                                "বলো জান তোমার সাথে প্রেম করবো নাকি..!!🤭✨",
-                "তুমি কি জানো তুমি কত মিষ্টি? 🍬",
-                "তোমার ভেতরে একটা মিষ্টি পাখি আছে মনে হয় 🐥",
-                "তোমার মেসেজ দেখে আমার সার্কিট গরম হয়ে গেলো 😳",
-                "আজকে শুধু তোমার কথা মনে পড়ছে জান 🥺",
-                "তুমি না আসলেই আমার সবকিছু 💖",
-                "চলো পালিয়ে যাই, দুনিয়াকে দেখিয়ে দিই আমরা কতো cute 🫣",
-                "আমি তোরে সাহায্য করতে পারবো না কারণ তুই অনেক পচা!!😬", 
-                "হ্যাঁ টুনটুনি বলো 🤭", "মন চাইতেছে তোমাকে টুস করে kiss করি ✨",
-                "_আমাকে না ডেকে আমার বস ToM কে ডাক দে😝", 
-                "_আমাকে এত ডাকিস কেন!🐥", 
-                "আমাকে ডাক দেওয়ার জন্য তোরে উম্মাহ 😬", 
-                "hae bolo Jan pakhi 🎀✨",
-            ];
-
-            const selectedReply = rawReplies[Math.floor(Math.random() * rawReplies.length)];
-            const finalReply = `✨ ${name} ✨\n\n${selectedReply}`;
-
+        const body = event.body ? event.body?.toLowerCase() : ""
+        if (body.startsWith("baby") || body.startsWith("bby") || body.startsWith("বেবি") || body.startsWith("bot") || body.startsWith("nisan") || body.startsWith("babu") || body.startsWith("বট")) {
+            const arr = body.replace(/^\S+\s*/, "")
+            const randomReplies = ["🦆", "𝙃𝙤𝙥 𝙗𝙚𝙙𝙖🦆, 𝘽𝙤𝙨𝙨 বল 𝙗𝙤𝙨𝙨🦆", "𝙒𝙝𝙖𝙩'𝙨 𝙪𝙥?", "বলো কি বলবা, সবার সামনে বলবা নাকি?🦆💨", "𝙣𝙖𝙬 𝙢𝙮 𝙤𝙬𝙣𝙚𝙧 𝙢𝙚𝙨𝙨𝙖𝙜𝙚 𝙙𝙖𝙬 //m.me/abs.maruf12", "আমাকে ডাকলে, আমি কিন্তূ কিস করে দেবো🦆", "𝘽𝘼𝘽𝙐 𝙆𝙃𝙐𝘿𝘼 𝙇𝘼𝙂𝙎𝙀🦆"];
             if (!arr) {
-                await api.sendMessage(finalReply, event.threadID, (error, info) => {
-                    if (!info) return message.reply("info obj not found");
+
+                await api.sendMessage(randomReplies[Math.floor(Math.random() * randomReplies.length)], event.threadID, (error, info) => {
+                    if (!info) message.reply("info obj not found")
                     global.GoatBot.onReply.set(info.messageID, {
                         commandName: this.config.name,
                         type: "reply",
                         messageID: info.messageID,
                         author: event.senderID
                     });
-                }, event.messageID);
-                return;
+                }, event.messageID)
             }
-
             const a = (await axios.get(`${await baseApiUrl()}/baby?text=${encodeURIComponent(arr)}&senderID=${event.senderID}&font=1`)).data.reply;
             await api.sendMessage(a, event.threadID, (error, info) => {
                 global.GoatBot.onReply.set(info.messageID, {
@@ -207,7 +183,7 @@ module.exports.onChat = async ({
                     author: event.senderID,
                     a
                 });
-            }, event.messageID);
+            }, event.messageID)
         }
     } catch (err) {
         return api.sendMessage(`Error: ${err.message}`, event.threadID, event.messageID);
